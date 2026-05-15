@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KUPON DEPOSIT CERIA</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main class="page">
+    <header class="header">
+      <h1>KUPON DEPOSIT<br><span>CERIA</span></h1>
+      <p class="subtitle">Masukkan User ID, Pilih Kupon yang tersedia, lalu permintaan akan otomatis masuk kedalam Akun ID dalam estimasi 2 - 5 menit.</p>
+    </header>
+
+    <section class="section" style="margin-top:0;margin-bottom:16px;">
+      <div class="section-head">
+        <div class="section-title">Verifikasi ID Member</div>
+        <div class="reward-pill">Login By ID</div>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label for="memberInputId">User ID Member</label>
+          <input type="text" id="memberInputId" placeholder="Masukkan User ID Member" oninput="resetAfterInput()" />
+        </div>
+
+        <div class="field" style="display:flex;align-items:end;">
+          <button type="button" class="action-btn" style="width:100%;" onclick="verifyMemberId()">Check ID</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="member-panel">
+      <div class="member-card">
+        <small>User ID Member</small>
+        <strong id="displayUserId">-</strong>
+      </div>
+      <div class="member-card coupon">
+        <small>TOTAL KUPON</small>
+        <strong id="displayCoupon">0 Kupon</strong>
+      </div>
+    </section>
+
+    <section class="section bonus-section">
+      <button class="scheme-toggle" type="button" onclick="toggleScheme()">
+        <span>PILIH KUPON ANDA</span>
+      </button>
+
+      <div class="scheme-slide show" id="schemeSlide">
+        <div class="section-head" style="margin-top:14px;">
+          <div class="section-title">Pilih Bonus Claim</div>
+        </div>
+
+        <div class="bonus-grid">
+          <button class="bonus-item" type="button" data-coupon="5" data-bonus="Rp10.000" onclick="selectBonus(this)"><strong>5 KUPON</strong><span>Rp 10.000</span></button>
+          <button class="bonus-item" type="button" data-coupon="15" data-bonus="Rp20.000" onclick="selectBonus(this)"><strong>15 KUPON</strong><span>Rp 20.000</span></button>
+          <button class="bonus-item" type="button" data-coupon="20" data-bonus="Rp25.000" onclick="selectBonus(this)"><strong>20 KUPON</strong><span>Rp 25.000</span></button>
+          <button class="bonus-item" type="button" data-coupon="25" data-bonus="Rp30.000" onclick="selectBonus(this)"><strong>25 KUPON</strong><span>Rp 30.000</span></button>
+          <button class="bonus-item" type="button" data-coupon="30" data-bonus="Rp50.000" onclick="selectBonus(this)"><strong>30 KUPON</strong><span>Rp 50.000</span></button>
+          <button class="bonus-item" type="button" data-coupon="50" data-bonus="Rp100.000" onclick="selectBonus(this)"><strong>50 KUPON</strong><span>Rp 100.000</span></button>
+        </div>
+
+        <div class="claim-summary" id="claimSummary"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-title">Data Tambahan</div>
+        <div class="reward-pill">Opsional</div>
+      </div>
+
+      <form class="form-grid" onsubmit="return false;">
+        <div class="two-col">
+          <div class="field">
+            <label for="contact">Kontak Aktif</label>
+            <input type="text" id="contact" placeholder="WhatsApp / Telegram" maxlength="13" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,13)" />
+            <div class="field-note">Tidak wajib diisi.</div>
+          </div>
+
+          <div class="field">
+            <label>Jenis Hadiah</label>
+            <input type="text" id="rewardType" value="KUPON DEPOSIT CERIA" readonly />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="note">Catatan Admin</label>
+          <textarea id="note" placeholder="Catatan tambahan jika diperlukan."></textarea>
+          <div class="field-note">Tidak wajib diisi.</div>
+        </div>
+
+        <div class="action-row">
+          <button type="button" class="action-btn" id="submitBtn" onclick="openConfirmPopup()">Setujui</button>
+        </div>
+
+        <div class="status-note" id="statusText">Silakan input User ID dan klik Check ID terlebih dahulu.</div>
+      </form>
+    </section>
+
+    <section class="section">
+      <button class="history-toggle" type="button" onclick="toggleHistory()">History Claim</button>
+
+      <div class="history-panel" id="historyPanel">
+        <div class="section-head" style="margin-top:14px;">
+          <div class="section-title">Riwayat Claim Member</div>
+          <div class="reward-pill">Filter Tanggal</div>
+        </div>
+
+        <div class="history-filter">
+          <div class="field">
+            <label for="historyDate">Tanggal Claim</label>
+            <input type="date" id="historyDate" onchange="loadHistory()" />
+          </div>
+          <div class="field" style="display:flex;align-items:end;">
+            <button type="button" class="action-btn" style="width:100%;" onclick="clearHistoryFilter()">Reset</button>
+          </div>
+        </div>
+
+        <div class="history-list" id="historyList">
+          <div class="history-item">
+            <div class="history-info">
+              <strong>Belum ada history claim</strong>
+              <span>Silakan login ID untuk melihat riwayat claim member.</span>
+            </div>
+            <div class="history-badge">EMPTY</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta-area">
+      <a class="btn" href="https://wa.me/6285124451422" target="_blank">Butuh bantuan?</a>
+    </div>
+
+    <p class="footer-note">Pastikan hanya memproses claim melalui data member yang valid.</p>
+  </main>
+
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-box">
+      <h2 id="modalTitle">Konfirmasi Claim</h2>
+      <p id="modalDesc">Mohon cek kembali rincian claim sebelum disetujui.</p>
+      <div class="modal-detail" id="modalDetail"></div>
+      <div class="modal-action" id="modalAction">
+        <button type="button" class="modal-btn no" onclick="closeConfirmPopup()">No</button>
+        <button type="button" class="modal-btn yes" onclick="submitClaim()">Yes</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
